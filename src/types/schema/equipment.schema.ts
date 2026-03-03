@@ -3,7 +3,7 @@ import { EquipmentTypeEnum } from "../enum/equipment.enum";
 
 export const EquipmentSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: z.string().optional(),
   type: z.enum(Object.values(EquipmentTypeEnum)),
   available: z.boolean(),
 });
