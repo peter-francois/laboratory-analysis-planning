@@ -26,15 +26,14 @@ function main() {
       process.exit(1);
     }
 
-    const data: InputInterface = result.data as InputInterface
+    const data: InputInterface = result.data as InputInterface;
 
-    const schedule = planifyLab(data)
+    const schedule = planifyLab(data);
 
     // Export in JSON
     const dir = path.dirname(DEFAULT_OUTPUT_FILE);
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(DEFAULT_OUTPUT_FILE, JSON.stringify(schedule, null, 2))
-
+    fs.writeFileSync(DEFAULT_OUTPUT_FILE, JSON.stringify(schedule, null, 2));
   } catch (error) {
     console.error("Erreur lors du traitement :", error);
   }
