@@ -5,10 +5,10 @@ export const TechnicianSchema = z.object({
   id: z.string(),
   name: z.string(),
   speciality: z.enum(Object.values(TechnicianSpecialityEnum)),
-  startTime: z.string().refine((val) => /^\d{2}:\d{2}$/.test(val), {
+  startTime: z.string().regex(/^\d{2}:\d{2}$/, {
     message: "startTime doit être au format HH:MM",
   }),
-  endTime: z.string().refine((val) => /^\d{2}:\d{2}$/.test(val), {
+  endTime: z.string().regex(/^\d{2}:\d{2}$/, {
     message: "endTime doit être au format HH:MM",
   }),
 });

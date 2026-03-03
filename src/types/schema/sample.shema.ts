@@ -7,7 +7,7 @@ export const SampleSchema = z.object({
   type: z.enum(Object.values(SampleTypeEnum)),
   priority: z.enum(Object.values(SamplePriorityEnum)),
   analysisTime: z.number(),
-  arrivalTime: z.string().refine((val) => /^\d{2}:\d{2}$/.test(val), {
+  arrivalTime: z.string().regex(/^\d{2}:\d{2}$/, {
     message: "arrivalTime doit être au format HH:MM",
   }),
   patientId: z.string(),
