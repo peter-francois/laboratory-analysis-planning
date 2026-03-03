@@ -4,12 +4,14 @@ import { InputInterface } from "../types/interface/input.interface";
 import { MetricsInterface } from "../types/interface/metrics.interface";
 import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { shiftTimeByMinutes } from "../utils/time.utils";
+import { orderSamples } from "./sample.service";
 
 export function planifyLab(data: InputInterface): {
   schedule: ScheduleInterface[];
   metrics: MetricsInterface;
 } {
   const { samples, technicians, equipment } = data;
+  const orderedSamples = orderSamples(samples);
   const schedule: ScheduleInterface[] = [];
   const metrics: MetricsInterface = {
     totalTime: 0,
@@ -20,7 +22,7 @@ export function planifyLab(data: InputInterface): {
   let lastEnd: ISOTimeString | null = null;
   let sumAnalysisTime: number = 0;
 
-  for (const sample of samples) {
+  for (const sample of orderedSamples) {
     const endTime = shiftTimeByMinutes(sample.arrivalTime, sample.analysisTime) as ISOTimeString;
     if (!firstStart || DateTime.fromISO(sample.arrivalTime) < DateTime.fromISO(firstStart)) {
       firstStart = sample.arrivalTime;
