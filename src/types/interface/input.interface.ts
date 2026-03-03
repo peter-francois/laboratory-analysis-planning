@@ -3,7 +3,7 @@ import { SampleInterface } from "./sample.interface";
 import { TechnicianInterface } from "./technician.interface";
 
 export interface InputInterface {
-  samples: SampleInterface;
-  technicians: TechnicianInterface;
-  equipment: EquipmentInterface;
+  samples: SampleInterface[];
+  technicians: TechnicianInterface[];
+  equipment: EquipmentInterface[];
 }
