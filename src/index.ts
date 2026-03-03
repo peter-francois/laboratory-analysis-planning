@@ -1,10 +1,10 @@
 import * as fs from "fs";
-
 import { readFileSync } from "fs";
 import { InputInterface } from "./types/interface/input.interface";
 import { InputSchema } from "./types/schema/input.schema";
 import { planifyLab } from "./services/schedule.service";
 import { DEFAULT_OUTPUT_FILE } from "./config/path";
+import path from "path";
 
 function main() {
   const filePath: string = process.argv[2];
@@ -31,6 +31,8 @@ function main() {
     const schedule = planifyLab(data)
 
     // Export in JSON
+    const dir = path.dirname(DEFAULT_OUTPUT_FILE);
+    fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(DEFAULT_OUTPUT_FILE, JSON.stringify(schedule, null, 2))
 
   } catch (error) {
