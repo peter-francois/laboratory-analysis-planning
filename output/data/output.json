@@ -8,5 +8,10 @@
       "endTime": "09:30",
       "priority": "URGENT"
     }
-  ]
+  ],
+  "metrics": {
+    "totalTime": 30,
+    "efficiency": 100,
+    "conflicts": 0
+  }
 }
