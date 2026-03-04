@@ -1,4 +1,4 @@
-import { ISOTimeString } from "../common.type";
+import { timeString } from "../common.type";
 import { SamplePriorityEnum, SampleTypeEnum } from "../enum/sample.enum";
 
 export interface SampleInterface {
@@ -6,6 +6,6 @@ export interface SampleInterface {
   type: SampleTypeEnum;
   priority: SamplePriorityEnum;
   analysisTime: number;
-  arrivalTime: ISOTimeString;
+  arrivalTime: timeString;
   patientId: string;
 }
