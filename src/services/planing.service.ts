@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { TechnicianSpecialityEnum } from "../types/enum/technician.enum";
 import { AssignInterface } from "../types/interface/assign.interface";
 import { EquipmentInterface } from "../types/interface/equipment.interface";
 import { SampleInterface } from "../types/interface/sample.interface";
@@ -9,6 +8,7 @@ import { shiftTimeByMinutes } from "../utils/time.utils";
 import { timeString } from "../types/common.type";
 import { isResourceAvailable } from "./resource.service";
 import { isTechnicianCompatible } from "./technician.service";
+import { isEquipmentCompatible } from "./equipment.service";
 
 export function assignSampleToResources(
   sample: SampleInterface,
@@ -33,7 +33,7 @@ export function assignSampleToResources(
     }
 
     for (const equip of equipment) {
-      if ((equip.type as string) !== (sample.type as string)) continue;
+      if (!isEquipmentCompatible(equip, sample.type)) continue;
 
       while (
         (!isResourceAvailable(
