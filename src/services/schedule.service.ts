@@ -30,6 +30,7 @@ export function planifyLab(data: InputInterface): OutputInterface {
       firstStart = sampleArrival;
     }
     if (!assignment) continue;
+    sumAnalysisTime += sampleDuration;
     schedule.push({
       sampleId: sample.id,
       technicianId: assignment.technicianId,
@@ -39,9 +40,9 @@ export function planifyLab(data: InputInterface): OutputInterface {
       priority: sample.priority,
     });
 
-    sumAnalysisTime += sampleDuration;
     const sampleEnd = shiftTimeByMinutes(assignment.startTime, sampleDuration) as timeString;
-    if (!lastEnd || DateTime.fromISO(sampleEnd) > DateTime.fromISO(lastEnd)) lastEnd = sampleEnd;
+    if (!lastEnd || DateTime.fromISO(sampleEnd) > DateTime.fromISO(lastEnd))
+      lastEnd = assignment.endTime;
   }
 
   metrics.totalTime =
