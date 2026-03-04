@@ -8,6 +8,7 @@ import { TechnicianInterface } from "../types/interface/technician.interface";
 import { shiftTimeByMinutes } from "../utils/time.utils";
 import { timeString } from "../types/common.type";
 import { isResourceAvailable } from "./resource.service";
+import { isTechnicianCompatible } from "./technician.service";
 
 export function assignSampleToResources(
   sample: SampleInterface,
@@ -19,12 +20,8 @@ export function assignSampleToResources(
   const sampleDuration = sample.analysisTime;
 
   for (const technician of technicians) {
-    if (
-      (technician.speciality as string) !== (sample.type as string) &&
-      technician.speciality !== TechnicianSpecialityEnum.GENERAL
-    ) {
-      continue;
-    }
+    if (!isTechnicianCompatible(technician, sample.type)) continue;
+
     const techStart = DateTime.fromISO(technician.startTime);
     const techEnd = DateTime.fromISO(technician.endTime);
     let currentStartTime = DateTime.max(DateTime.fromISO(sampleArrival), techStart).toFormat(
