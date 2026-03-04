@@ -5,12 +5,10 @@ import { SampleInterface } from "../types/interface/sample.interface";
 import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { TechnicianInterface } from "../types/interface/technician.interface";
 import { timeString } from "../types/common.type";
-import { isTechnicianCompatible } from "./technician.service";
-import { isEquipmentCompatible } from "./equipment.service";
 import { MetricsInterface } from "../types/interface/metrics.interface";
 import { shiftTimeByMinutes } from "../utils/time.utils";
 import { FindSlotInterface } from "../types/interface/resource.interface";
-import { isResourceAvailable } from "./resource.service";
+import { isEquipmentCompatible, isResourceAvailable, isTechnicianCompatible } from "./resource.service";
 
 export function assignSampleToResources(
   sample: SampleInterface,
@@ -57,7 +55,7 @@ export function assignSampleToResources(
   return null;
 }
 
-export function findNextAvailableSlot(
+function findNextAvailableSlot(
   schedule: ScheduleInterface[],
   technician: TechnicianInterface,
   equip: EquipmentInterface,

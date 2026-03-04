@@ -3,6 +3,8 @@ import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { timeString } from "../types/common.type";
 import { TechnicianInterface } from "../types/interface/technician.interface";
 import { EquipmentInterface } from "../types/interface/equipment.interface";
+import { SampleTypeEnum } from "../types/enum/sample.enum";
+import { TechnicianSpecialityEnum } from "../types/enum/technician.enum";
 
 export function isResourceAvailable(
   schedule: ScheduleInterface[],
@@ -30,4 +32,19 @@ export function isResourceAvailable(
   return true;
 }
 
+export function isTechnicianCompatible(
+  technician: TechnicianInterface,
+  sampleType: SampleTypeEnum,
+): boolean {
+  return (
+    technician.speciality as string === sampleType ||
+    technician.speciality === TechnicianSpecialityEnum.GENERAL
+  );
+}
 
+export function isEquipmentCompatible(
+    equipment: EquipmentInterface,
+    sampleType: SampleTypeEnum
+): boolean{
+    return (equipment.type as string) === (sampleType as string)
+}
