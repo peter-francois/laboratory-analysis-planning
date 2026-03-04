@@ -6,7 +6,7 @@ import { BASE_DIR, DEFAULT_INPUT_TEST_DIR } from "../../src/config/path";
 
 
 const singleSamplePath = path.join(DEFAULT_INPUT_TEST_DIR, "./single-sample.json");
-const expectedFilePath = path.join(BASE_DIR, "./tests/expected/single-sample-output.json");
+const expectedFilePath = path.join(BASE_DIR, "./tests/integration/expected/single-sample-output.json");
 
 describe("Single sample test", () => {
   it("Should match expected output", () => {
