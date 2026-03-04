@@ -5,11 +5,9 @@ import { MetricsInterface } from "../types/interface/metrics.interface";
 import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { shiftTimeByMinutes } from "../utils/time.utils";
 import { orderSamples } from "./sample.service";
+import { OutputInterface } from "../types/interface/output.interface";
 
-export function planifyLab(data: InputInterface): {
-  schedule: ScheduleInterface[];
-  metrics: MetricsInterface;
-} {
+export function planifyLab(data: InputInterface): OutputInterface {
   const { samples, technicians, equipment } = data;
   const orderedSamples = orderSamples(samples);
   const schedule: ScheduleInterface[] = [];
