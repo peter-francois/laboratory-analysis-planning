@@ -10,7 +10,7 @@ const expectedFilePath = path.join(
 );
 
 describe("Single sample test", () => {
-  it("Should match expected output", () => {
+  it("Should match expected output for single sample test", () => {
     const input = JSON.parse(readFileSync(singleSamplePath, "utf-8"));
     const expected = JSON.parse(readFileSync(expectedFilePath, "utf-8"));
 
