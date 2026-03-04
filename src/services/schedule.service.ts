@@ -22,7 +22,7 @@ export function planifyLab(data: InputInterface): OutputInterface {
   let sumAnalysisTime: number = 0;
 
   for (const sample of orderedSamples) {
-    const assignment = assignSampleToResources(sample, technicians, equipment, schedule);
+    const assignment = assignSampleToResources(sample, technicians, equipment, schedule, metrics);
 
     const sampleArrival = sample.arrivalTime;
     const sampleDuration = sample.analysisTime;

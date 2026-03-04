@@ -8,12 +8,14 @@ import { timeString } from "../types/common.type";
 import { findNextAvailableSlot } from "./resource.service";
 import { isTechnicianCompatible } from "./technician.service";
 import { isEquipmentCompatible } from "./equipment.service";
+import { MetricsInterface } from "../types/interface/metrics.interface";
 
 export function assignSampleToResources(
   sample: SampleInterface,
   technicians: TechnicianInterface[],
   equipment: EquipmentInterface[],
   schedule: ScheduleInterface[],
+  metrics: MetricsInterface,
 ): AssignInterface | null {
   const sampleArrival = sample.arrivalTime;
   const sampleDuration = sample.analysisTime;
@@ -45,6 +47,8 @@ export function assignSampleToResources(
           startTime: slot.startTime,
           endTime: slot.endTime,
         };
+      } else {
+        metrics.conflicts += 1;
       }
     }
   }
