@@ -1,12 +1,13 @@
 import * as path from "path";
-
 import { readFileSync } from "fs";
 import { planifyLab } from "../../src/services/schedule.service";
-import { BASE_DIR, DEFAULT_INPUT_TEST_DIR } from "../../src/config/path";
+import { BASE_DIR } from "../../src/config/path";
 
-
-const singleSamplePath = path.join(DEFAULT_INPUT_TEST_DIR, "./single-sample.json");
-const expectedFilePath = path.join(BASE_DIR, "./tests/integration/expected/single-sample-output.json");
+const singleSamplePath = path.join(BASE_DIR, "./tests/integration/input/single-sample.json");
+const expectedFilePath = path.join(
+  BASE_DIR,
+  "./tests/integration/expected/single-sample-output.json",
+);
 
 describe("Single sample test", () => {
   it("Should match expected output", () => {
