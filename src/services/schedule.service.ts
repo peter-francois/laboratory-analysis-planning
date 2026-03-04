@@ -5,9 +5,8 @@ import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { shiftTimeByMinutes } from "../utils/time.utils";
 import { orderSamples } from "./sample.service";
 import { OutputInterface } from "../types/interface/output.interface";
-import { TechnicianSpecialityEnum } from "../types/enum/technician.enum";
-import { isResourceAvailable } from "./resource.service";
 import { timeString } from "../types/common.type";
+import { assignSampleToResources } from "./planing.service";
 
 export function planifyLab(data: InputInterface): OutputInterface {
   const { samples, technicians, equipment } = data;
@@ -23,78 +22,25 @@ export function planifyLab(data: InputInterface): OutputInterface {
   let sumAnalysisTime: number = 0;
 
   for (const sample of orderedSamples) {
-    let assigned = false;
+    const assignment = assignSampleToResources(sample, technicians, equipment, schedule);
+
     const sampleArrival = sample.arrivalTime;
     const sampleDuration = sample.analysisTime;
-    let currentStartTime = sampleArrival;
     if (!firstStart || DateTime.fromISO(sampleArrival) < DateTime.fromISO(firstStart)) {
       firstStart = sampleArrival;
     }
+    if (!assignment) continue;
+    schedule.push({
+      sampleId: sample.id,
+      technicianId: assignment.technicianId,
+      equipmentId: assignment.equipmentId,
+      startTime: assignment.startTime,
+      endTime: assignment.endTime,
+      priority: sample.priority,
+    });
 
-    for (const technician of technicians) {
-      if (assigned) break;
-      if (
-        (technician.speciality as string) !== (sample.type as string) &&
-        technician.speciality !== TechnicianSpecialityEnum.GENERAL
-      )
-        continue;
-      const techStart = DateTime.fromISO(technician.startTime);
-      const techEnd = DateTime.fromISO(technician.endTime);
-
-      currentStartTime = DateTime.max(DateTime.fromISO(sampleArrival), techStart).toFormat(
-        "HH:mm",
-      ) as timeString;
-
-      let currentEndTime = shiftTimeByMinutes(currentStartTime, sampleDuration);
-      if (DateTime.fromISO(currentEndTime) > techEnd) {
-        continue;
-      }
-
-      for (const equip of equipment) {
-        if ((equip.type as string) !== (sample.type as string)) continue;
-
-        while (
-          (!isResourceAvailable(
-            schedule,
-            technician,
-            currentStartTime,
-            currentEndTime,
-            "technician",
-          ) ||
-            !isResourceAvailable(schedule, equip, currentStartTime, currentEndTime, "equipment")) &&
-          DateTime.fromISO(currentEndTime) <= techEnd
-        ) {
-          currentStartTime = shiftTimeByMinutes(currentStartTime, 1);
-          currentEndTime = shiftTimeByMinutes(currentStartTime, sampleDuration);
-        }
-
-        if (
-          isResourceAvailable(
-            schedule,
-            technician,
-            currentStartTime,
-            currentEndTime,
-            "technician",
-          ) &&
-          isResourceAvailable(schedule, equip, currentStartTime, currentEndTime, "equipment") &&
-          DateTime.fromISO(currentEndTime) <= techEnd
-        ) {
-          schedule.push({
-            sampleId: sample.id,
-            technicianId: technician.id,
-            equipmentId: equip.id,
-            startTime: currentStartTime,
-            endTime: currentEndTime,
-            priority: sample.priority,
-          });
-        }
-
-        sumAnalysisTime += sampleDuration;
-        assigned = true;
-        break;
-      }
-    }
-    const sampleEnd = shiftTimeByMinutes(currentStartTime, sampleDuration) as timeString;
+    sumAnalysisTime += sampleDuration;
+    const sampleEnd = shiftTimeByMinutes(assignment.startTime, sampleDuration) as timeString;
     if (!lastEnd || DateTime.fromISO(sampleEnd) > DateTime.fromISO(lastEnd)) lastEnd = sampleEnd;
   }
 
