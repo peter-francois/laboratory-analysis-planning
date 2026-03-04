@@ -92,29 +92,35 @@ laboratory-analysis-planning/
 ## Choix technique
 
 ### 1. TypeScript
+
 - **Pourquoi** : Typage statique pour éviter les erreurs runtime et faciliter le refactoring.
 - **Avantage** : Meilleure lisibilité, autocomplétion et sécurité dans le code métier.
 
 ### 2. Luxon pour la gestion du temps
+
 - **Pourquoi** : Manipulation simple des heures et durées ISO, comparaisons et formats flexibles.
 - **Avantage** : Permet de calculer les créneaux, durées et décalages facilement.
 
 ### 3. Zod pour la validation des entrées
+
 - **Pourquoi** : Validation stricte des fichiers JSON d’entrée.
 - **Avantage** : Détection immédiate des erreurs de format ou de données manquantes.
 
 ### 4. Architecture services / utils / types
+
 - **Services** : Contiennent la logique métier (planification, ressources, échantillons, fichiers).
 - **Utils** : Fonctions réutilisables (gestion du temps).
 - **Types** : Interfaces, enums et schemas pour centraliser le typage.
 - **Avantage** : Séparation claire des responsabilités, code maintenable et testable.
 
 ### 5. Priorisation des échantillons
+
 - **STAT > URGENT > ROUTINE**
 - **Pourquoi** : Respect des urgences cliniques et planning optimal.
 - **Avantage** : Garantit que les échantillons critiques sont traités en priorité.
 
 ### 6. Dossier `output` structuré par année / mois
+
 - **Pourquoi** : Organisation automatique des fichiers générés.
 - **Avantage** : Historique clair, facile à retrouver et archiver.
 
@@ -122,11 +128,20 @@ laboratory-analysis-planning/
 
 ## Tests
 
-- **Framework** : Jest  
-- **Types de tests** :  
-  - **Unitaires** : `tests/unit/` → teste les fonctions individuellement.  
-  - **Intégration** : `tests/integration` → Vérifier que le planificateur (`planifyLab`) fonctionne correctement avec différents scénarios d’entrée.  
-- **Organisation** :  
-  - `input/` → fichiers JSON d’entrée pour le test  
-  - `expected/` → fichiers JSON attendus pour vérifier le résultat  
-  - `*.spec.ts` → fichiers de test qui comparent la sortie réelle à la sortie attendue  
+- **Framework** : Jest
+- **Types de tests** :
+  - **Unitaires** : `tests/unit/` → teste les fonctions individuellement.
+  - **Intégration** : `tests/integration` → Vérifier que le planificateur (`planifyLab`) fonctionne correctement avec différents scénarios d’entrée.
+- **Organisation** :
+  - `input/` → fichiers JSON d’entrée pour le test
+  - `expected/` → fichiers JSON attendus pour vérifier le résultat
+  - `*.spec.ts` → fichiers de test qui comparent la sortie réelle à la sortie attendue
+
+---
+
+## Evolution future
+
+- **Gestion complète du parallélisme**  
+  Actuellement, le planificateur assigne les analyses aux techniciens et équipements en respectant les disponibilités et les priorités.  
+  Cependant, le calcul de l’efficacité (`metrics.efficiency`) **ne prend pas encore parfaitement en compte le parallélisme réel** lorsque plusieurs analyses se chevauchent sur différents techniciens ou équipements.  
+  Dans les prochaines versions, l’objectif sera d’améliorer l’algorithme pour gérer correctement les créneaux simultanés et refléter un taux d’efficacité exact dans ces situations.
