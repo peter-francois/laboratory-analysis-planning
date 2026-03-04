@@ -3,8 +3,6 @@ import { ScheduleInterface } from "../types/interface/schedule.interface";
 import { timeString } from "../types/common.type";
 import { TechnicianInterface } from "../types/interface/technician.interface";
 import { EquipmentInterface } from "../types/interface/equipment.interface";
-import { FindSlotInterface } from "../types/interface/resource.interface";
-import { shiftTimeByMinutes } from "../utils/time.utils";
 
 export function isResourceAvailable(
   schedule: ScheduleInterface[],
@@ -32,26 +30,4 @@ export function isResourceAvailable(
   return true;
 }
 
-export function findNextAvailableSlot(
-  schedule: ScheduleInterface[],
-  technician: TechnicianInterface,
-  equip: EquipmentInterface,
-  startTime: timeString,
-  duration: number,
-  techEnd: DateTime,
-): FindSlotInterface | null {
-  let currentStart = startTime;
-  let currentEnd = shiftTimeByMinutes(currentStart, duration);
 
-  while (DateTime.fromISO(currentEnd) <= techEnd) {
-    if (
-      isResourceAvailable(schedule, technician, currentStart, currentEnd, "technician") &&
-      isResourceAvailable(schedule, equip, currentStart, currentEnd, "equipment")
-    ) {
-      return { startTime: currentStart, endTime: currentEnd };
-    }
-    currentStart = shiftTimeByMinutes(currentStart, 1);
-    currentEnd = shiftTimeByMinutes(currentStart, duration);
-  }
-  return null;
-}
