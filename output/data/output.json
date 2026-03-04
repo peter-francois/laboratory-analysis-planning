@@ -4,7 +4,7 @@
       "sampleId": "S002",
       "technicianId": "T001",
       "equipmentId": "E001",
-      "startTime": "08:00",
+      "startTime": "09:30",
       "endTime": "10:00",
       "priority": "STAT"
     },
@@ -12,14 +12,14 @@
       "sampleId": "S001",
       "technicianId": "T001",
       "equipmentId": "E001",
-      "startTime": "08:00",
-      "endTime": "09:45",
+      "startTime": "10:00",
+      "endTime": "10:45",
       "priority": "URGENT"
     }
   ],
   "metrics": {
-    "totalTime": 60,
-    "efficiency": 125,
+    "totalTime": 105,
+    "efficiency": 71.4,
     "conflicts": 0
   }
 }
