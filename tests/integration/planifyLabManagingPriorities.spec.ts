@@ -8,7 +8,6 @@ const expectedFilePath = path.join(
   BASE_DIR,
   "./tests/integration/expected/managing-priorities-output.json",
 );
-console.log("🚀 ~ planifyLabManagingPriorities.spec.ts:11 ~ expectedFilePath:", expectedFilePath)
 
 describe("Managing priorities test", () => {
   it("Should match expected output for managing priorities test", () => {
